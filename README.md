@@ -39,8 +39,29 @@
 
 ### 5. 설치 및 사용법
 
-본 프로젝트는 Ubuntu 20.04 버전에서 개발되었으며 함께 포함된 다음의 스크립트를 수행하여 
-관련 패키지들의 설치와 빌드를 수행할 수 있습니다.
+본 프로젝트는 라즈베리파이 보드를 이용하여 수행하였습니다
+
+1. 서버 생성
+* 서버의 구동은 구름 IDE가 제공하는 고정 도메인을 이용하여 구현하였습니다. 만약, 구름 IDE를 사용하지 않고 이를 사용한다면 서버 코드 내에 존재하는 URL을 사용자가 생성하는 서버의 주소로 변경해 줘야 합니다 
+
+* 서버는 Node.js와 express.js를 이용하여 생성됩니다. 이용하는 IDE의 콘솔창에 npm init 명령어를 이용하여 package.json을 생성합니다
+* npm install express --save 명령어를 이용하여 express.js 모듈도 설치합니다
+* 이후 명령어로 node server.js를 치면 서버가 구동됩니다
+
+2. 라즈베리파이 보드 사용
+* 라즈베리파이에 putty나 원격 접속 또는 모니터를 이용하여 접속한 뒤 패키지를 업데이트 합니다
+* sudo apt-get update, sudo apt-get upgrade, sudo reboot -h now를 이용하여 패키지를 업데이트
+* 이후 아래의 코드를 이용하여 wifi 속도 측정을 위한 라이브러리의 환경 설정을 해줍니다
 ```
-$ ./install_and_build.sh
+pip speedtest-cli —version
+
+echo $path
+/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/games:/usr/games
+
+path 추가
+pi@raspberrypi:~ $ PATH=$HOME/.local/bin:$PATH 
 ```
+3. 사용
+* 서버를 구동하고 라즈베리파이의 설정을 완료한 뒤 코드를 넣어서 작동시키면 보드가 와이파이를 측정하기 시작합니다
+* 이 후 와이파이를 측정할 때 마다 서버에 메시지를 보내며 이 때 계속 측정하려면 start, 멈추려면 end를 입력하여 측정의 시작과 끝을 결정할 수 있습니다
+* 서버 코드 내에 있는 plotly.html의 주소로 들어가서 heatmap과 예측 결과를 볼 수 있습니다
